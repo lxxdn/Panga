@@ -1,5 +1,4 @@
 import json
-import pdb
 
 class JsonDB(object):
     def __init__(self, db_path='./db.json'):

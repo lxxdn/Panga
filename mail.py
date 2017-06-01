@@ -1,11 +1,11 @@
 import yaml
 import smtplib
 from imaplib import IMAP4_SSL
+from imaplib import IMAP4
 from email.mime.text import MIMEText
 from email.header import Header
 import email
 import re
-import pdb
 
 
 class Mail(object):
@@ -45,6 +45,7 @@ class Mail(object):
         try:
             imap = IMAP4_SSL(host, 993)
             imap.login(mail_account, password)
+
             imap.select('INBOX')
             (retcode, msg_codes) = imap.search(None, '(UNSEEN)')
             if retcode == 'OK' and msg_codes:
@@ -67,19 +68,22 @@ class Mail(object):
                         for part in msg.walk():
                             if part.get_content_type() == 'text/plain':
                                 body = part.get_payload(
-                                    None, decode=True).decode(part.get_content_charset())
+                                    None, decode=True).decode(
+                                        part.get_content_charset())
                                 print(body)
                                 contents.append(body)
                                 imap.store(code, '+FLAGS', '\Seen')
+        except IMAP4.error:
+            print("Credential error!! Please check your email configurations")
 
         finally:
-            imap.close()
+            if imap.state == 'SELECTED':
+                imap.close()
 
         return contents
 
 
 if __name__ == "__main__":
     m = Mail()
-    # m.send('julien_luxiao@163.com', '每日提醒', '为什么是这样')
     content = m.receive()
     print(content)

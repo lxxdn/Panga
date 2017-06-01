@@ -3,7 +3,6 @@ from mail import Mail
 import time
 from datetime import datetime
 import card
-import pdb
 
 m = Mail()
 db = DB()
@@ -30,7 +29,7 @@ def remind():
     cards = [card.load(c) for c in db.read()]
     remind_body = []
     splitter = "\n\n---------------------------------\n\n"
-    header = "这是今天要复习的内容：\n\n #################### \n\n"
+    header = "This is what you need to review: \n\n #################### \n\n"
     for c in cards:
         if c.should_remind():
             remind_body.append(c.content)
@@ -38,7 +37,7 @@ def remind():
 
     db.write([c.to_hash() for c in cards])
     if remind_body:
-        m.send(m.config['notifier']['email'], '[Panga] 提醒',
+        m.send(m.config['notifier']['email'], '[Panga] Remind',
                header + splitter.join(remind_body))
 
 

@@ -1,5 +1,4 @@
 from .json_db import JsonDB
-import pdb
 
 class DB(object):
     def __init__(self, db_instance = None):
