@@ -26,8 +26,7 @@ class Card(object):
         if self.round < len(REMIND_INVERVAL):
             t = datetime.strptime(self.created_at, Card.TIME_FORMAT)
             delta = timedelta(days=REMIND_INVERVAL[self.round])
-            if (t + delta) <= datetime.now():
-                result = True
+            result = (t + delta).date() <= datetime.now().date()
 
         return result
 
