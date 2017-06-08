@@ -17,7 +17,7 @@ def main():
 
         # sleep 5 mintues
         check_mail()
-        time.sleep(5*60)
+        time.sleep(60)
 
 
 def check_mail():
